@@ -37,3 +37,21 @@ namespace Intelitrader_API.Controllers
             var result = _mapper.Map<IEnumerable<GetUserDto>>(await _userRepository.ReadAll());
             return Ok(result);
         }
+
+
+        /// <summary>
+        /// Obter usuario por id.
+        /// </summary>
+        /// <response code="200">Usuario obtido com sucesso.</response>
+        /// <response code="404">Usuario não encontrado.</response>
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetUserDto>> GetUser(Guid id)
+        {
+            var result = _mapper.Map<GetUserDto>(await _userRepository.Read(id));
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
