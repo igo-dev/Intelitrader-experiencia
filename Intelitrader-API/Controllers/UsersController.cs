@@ -77,3 +77,19 @@ namespace Intelitrader_API.Controllers
 
             return Ok();
         }
+
+
+        /// <summary>
+        /// Cadastrar usuario.
+        /// </summary>
+        /// <response code="201">Usuario cadastrado com sucesso.</response>
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(CreateUserDto createUserDto)
+        {
+            UserModel userModel = _mapper.Map<UserModel>(createUserDto);
+            await _userRepository.Create(userModel);
+            await _userRepository.SaveChanges();
+
+            return Ok();
+        }
