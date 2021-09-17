@@ -37,6 +37,7 @@ namespace Intelitrader_API
             });
             services.AddDbContext<AppDataContext>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddAutoMapper(typeof(AutoMapperSetup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
