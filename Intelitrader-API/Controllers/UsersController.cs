@@ -24,3 +24,16 @@ namespace Intelitrader_API.Controllers
             _userRepository = userRepository;
             _mapper = mapper;
         }
+
+
+        /// <summary>
+        /// Obter lista de usuarios.
+        /// </summary>
+        /// <response code="200">Lista obtida com sucesso.</response>
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GetUserDto>>> GetUsers()
+        {
+            var result = _mapper.Map<IEnumerable<GetUserDto>>(await _userRepository.ReadAll());
+            return Ok(result);
+        }
