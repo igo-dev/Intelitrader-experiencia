@@ -32,6 +32,7 @@ namespace Intelitrader_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Intelitrader_API", Version = "v1" });
             });
+            services.AddDbContext<AppDataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
