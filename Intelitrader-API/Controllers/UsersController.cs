@@ -93,3 +93,28 @@ namespace Intelitrader_API.Controllers
 
             return Ok();
         }
+
+
+        /// <summary>
+        /// Deletar usuario por id.
+        /// </summary>
+        /// <response code="200">Usuario deletado com sucesso.</response>
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            var user = await _userRepository.Read(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await _userRepository.Delete(id);
+            await _userRepository.SaveChanges();
+
+            return Ok();
+        }
+
+    }
+}
