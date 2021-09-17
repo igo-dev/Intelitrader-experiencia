@@ -16,3 +16,11 @@ namespace Intelitrader_API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+
+        public UsersController(IUserRepository userRepository, IMapper mapper)
+        {
+            _userRepository = userRepository;
+            _mapper = mapper;
+        }
