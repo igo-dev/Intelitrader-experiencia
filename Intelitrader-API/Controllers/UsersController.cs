@@ -55,3 +55,25 @@ namespace Intelitrader_API.Controllers
 
             return Ok(result);
         }
+
+
+        /// <summary>
+        /// Editar usuario por id.
+        /// </summary>
+        /// <response code="200">Usuario editado com sucesso.</response>
+        /// <response code="404">Usuario não encontrado.</response>
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, UpdateUserDto updateUserDto)
+        {
+            if (!await _userRepository.UserExists(id))
+                return NotFound();
+
+            UserModel userModel = _mapper.Map<UserModel>(updateUserDto);
+            userModel.Id = id;
+            
+            await _userRepository.Update(userModel);
+            await _userRepository.SaveChanges();
+
+            return Ok();
+        }
