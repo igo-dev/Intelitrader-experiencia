@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Intelitrader_API.Data
 {
-    public class AppDataContext : DbContext
+    public class UsersContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
         {

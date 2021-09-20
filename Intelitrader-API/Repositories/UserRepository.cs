@@ -1,4 +1,4 @@
-﻿using Intelitrader_API.Data;
+using Intelitrader_API.Data;
 using Intelitrader_API.Interfaces;
 using Intelitrader_API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +11,8 @@ namespace Intelitrader_API.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly AppDataContext _context;
-        public UserRepository(AppDataContext dbContext)
+        private readonly UsersContext _context;
+        public UserRepository(UsersContext dbContext)
         {
             this._context = dbContext;
         }
