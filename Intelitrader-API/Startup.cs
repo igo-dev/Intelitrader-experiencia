@@ -31,6 +31,7 @@ namespace Intelitrader_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson();
             services.AddDbContext<UsersContext>();
             services.AddSwaggerGen(c =>
             {
@@ -38,10 +39,7 @@ namespace Intelitrader_API
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
-            });
-            services.AddDbContext<AppDataContext>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddAutoMapper(typeof(AutoMapperSetup));
+            }).AddSwaggerGenNewtonsoftSupport();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
