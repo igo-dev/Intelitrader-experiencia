@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Intelitrader_API.Dtos;
 using Intelitrader_API.Models;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,9 @@ namespace Intelitrader_API.Data
 
             CreateMap<UpdateUserDto, UserModel>();
             CreateMap<UserModel, UpdateUserDto>();
+
+            CreateMap<JsonPatchDocument<UpdateUserDto>, JsonPatchDocument<UserModel>>();
+            CreateMap<Operation<UpdateUserDto>, Operation<UserModel>>();
         }
     }
 }
