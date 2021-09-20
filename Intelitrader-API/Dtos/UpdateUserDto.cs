@@ -1,14 +1,13 @@
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Intelitrader_API.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+
 
 namespace Intelitrader_API.Dtos
 {
     public class UpdateUserDto
     {
-        public UpdateUserDto(string name, DateTime birthDate, string sex)
+        public UpdateUserDto(string name, string birthDate, string sex)
         {
             Name = name;
             Sex = sex;
@@ -16,12 +15,17 @@ namespace Intelitrader_API.Dtos
         }
         public Guid Id { get; }
 
+        [Required]
         [DataType(DataType.Text)]
         public string Name { get; set; }
 
+        [Required]
+        [DateValidator]
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
+        [Required]
+        [SexValidator]
         [DataType(DataType.Text)]
         public string Sex { get; set; }
 

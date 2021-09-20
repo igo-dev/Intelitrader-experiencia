@@ -1,14 +1,13 @@
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Intelitrader_API.Attributes;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace Intelitrader_API.Dtos
 {
     public class CreateUserDto
     {
-        public CreateUserDto(string name, DateTime birthDate, string sex)
+        public CreateUserDto(string name, string birthDate, string sex)
         {
             Name = name;
             Sex = sex;
@@ -21,12 +20,15 @@ namespace Intelitrader_API.Dtos
         public string Name { get; set; }
 
         [Required]
+        [DateValidator]
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         [Required]
-        [DataType(DataType.Text)]
+        [SexValidator]
         public string Sex { get; set; }
 
     }
+    
+    
 }
