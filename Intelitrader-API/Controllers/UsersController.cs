@@ -1,14 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Intelitrader_API.Data;
 using Intelitrader_API.Models;
 using Intelitrader_API.Interfaces;
 using Intelitrader_API.Dtos;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
 
 namespace Intelitrader_API.Controllers
@@ -83,7 +81,7 @@ namespace Intelitrader_API.Controllers
                 if (user == null) return NotFound();
 
                 GetUserDto result = _mapper.Map<GetUserDto>(user);
-            return Ok(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -113,9 +111,9 @@ namespace Intelitrader_API.Controllers
             {
                 if (!await _userRepository.UserExists(id)) return NotFound();
 
-            UserModel userModel = _mapper.Map<UserModel>(updateUserDto);
-            userModel.Id = id;
-            
+                UserModel userModel = _mapper.Map<UserModel>(updateUserDto);
+                userModel.Id = id;
+
                 await _userRepository.PutUpdate(userModel);
 
                 await _userRepository.SaveChangesAsync();
@@ -166,8 +164,8 @@ namespace Intelitrader_API.Controllers
                 if (!TryValidateModel(entity)) return BadRequest();
 
                 await _userRepository.SaveChangesAsync();
-            return Ok();
-        }
+                return Ok();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while patch updating user id {0}", id);
@@ -192,10 +190,10 @@ namespace Intelitrader_API.Controllers
             _logger.LogInformation("Creating new user");
 
             try
-        {
-            UserModel userModel = _mapper.Map<UserModel>(createUserDto);
+            {
+                UserModel userModel = _mapper.Map<UserModel>(createUserDto);
 
-            await _userRepository.Create(userModel);
+                await _userRepository.Create(userModel);
                 await _userRepository.SaveChangesAsync();
                 GetUserDto createdUser = _mapper.Map<GetUserDto>(userModel);
 
@@ -206,7 +204,7 @@ namespace Intelitrader_API.Controllers
                 _logger.LogError(ex, "Error while creating new user");
                 return StatusCode(500);
             }
-
+            
         }
 
 
@@ -230,10 +228,10 @@ namespace Intelitrader_API.Controllers
 
                 if (!userExists) return NotFound();
 
-            await _userRepository.Delete(id);
+                await _userRepository.Delete(id);
                 await _userRepository.SaveChangesAsync();
-            return Ok();
-        }
+                return Ok();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while deleting user id {0}", id);
