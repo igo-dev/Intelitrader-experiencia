@@ -43,9 +43,12 @@ namespace Intelitrader_API.Repositories
             return users;
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            bool isSaved = await _context.SaveChangesAsync() > 0;
+
+            if (!isSaved)
+                throw new Exception("An error ocurred while trying to save changes to the database");
         }
 
         public async Task Update(UserModel userModel)
