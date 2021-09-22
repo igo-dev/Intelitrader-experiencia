@@ -30,7 +30,14 @@ namespace Intelitrader_API.Repositories
 
         public async Task<UserModel> Read(Guid id)
         {
-            return await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
+
+            if(user == null)
+            {
+                return null;
+            }
+
+            return user;
         }
 
         public async Task<IEnumerable<UserModel>> ReadAll()
