@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Intelitrader_API.Attributes
 {
-    public class SexValidator : ValidationAttribute
+    public class SexValidator : RequiredAttribute
     {
+
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string valueLower = value.ToString().ToLower();
+            string sexString = value.ToString().ToLower();
 
-            if (valueLower == "masc" || valueLower == "fem" || valueLower == "outro")
+            if (sexString.Length == 0) return new ValidationResult("O campo sexo não pode estar vazio.");
+
+            if (sexString == "masc" || sexString == "fem" || sexString == "outro")
+            {
                 return ValidationResult.Success;
+            }
 
             return new ValidationResult("Sexo inválido. Opções válidas são 'Masc', 'Fem' e 'Outro'");
+
         }
 
     }
