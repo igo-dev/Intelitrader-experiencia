@@ -58,7 +58,9 @@ namespace Intelitrader_API.Repositories
 
         public async Task<bool> UserExists(Guid id)
         {
-            return await _context.Users.AnyAsync(u => u.Id == id);
+            bool userExists = await _context.Users.AnyAsync(u => u.Id == id);
+
+            return userExists;
         }
     }
 }
