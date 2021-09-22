@@ -180,15 +180,33 @@ namespace Intelitrader_API.Controllers
         /// Cadastrar usuario.
         /// </summary>
         /// <response code="201">Usuario cadastrado com sucesso.</response>
+        /// <response code="400">Requisição mal formada.</response>
+        /// <response code="500">Erro interno.</response>
 
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> Create(CreateUserDto createUserDto)
+        {
             _logger.LogInformation("Creating new user");
+
+            try
         {
             UserModel userModel = _mapper.Map<UserModel>(createUserDto);
-            await _userRepository.Create(userModel);
-                _logger.LogError(ex, "Error while creating new user");
 
-            return Ok();
+            await _userRepository.Create(userModel);
+                await _userRepository.SaveChangesAsync();
+                GetUserDto createdUser = _mapper.Map<GetUserDto>(userModel);
+
+                return CreatedAtAction(nameof(GetById), new { id = createdUser.Id }, createdUser);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating new user");
+                return StatusCode(500);
+            }
+
         }
 
 
