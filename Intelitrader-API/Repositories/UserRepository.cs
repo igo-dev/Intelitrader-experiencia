@@ -1,7 +1,9 @@
-using Intelitrader_API.Data;
+﻿using Intelitrader_API.Data;
 using Intelitrader_API.Interfaces;
 using Intelitrader_API.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +14,9 @@ namespace Intelitrader_API.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly UsersContext _context;
-        public UserRepository(UsersContext dbContext)
+        public UserRepository(UsersContext context)
         {
-            this._context = dbContext;
+            _context = context;
         }
 
         public async Task Create(UserModel userModel)
@@ -58,7 +60,7 @@ namespace Intelitrader_API.Repositories
                 throw new Exception("An error ocurred while trying to save changes to the database");
         }
 
-        public async Task Update(UserModel userModel)
+        public async Task PutUpdate(UserModel userModel)
         {
             await Task.FromResult(_context.Entry(userModel).State = EntityState.Modified);
         }
