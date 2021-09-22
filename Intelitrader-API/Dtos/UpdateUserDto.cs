@@ -15,18 +15,14 @@ namespace Intelitrader_API.Dtos
         }
         public Guid Id { get; }
 
-        [Required]
-        [DataType(DataType.Text)]
+        [NameValidator]
         public string Name { get; set; }
 
-        [Required]
         [DateValidator]
         [DataType(DataType.Date)]
         public string BirthDate { get; set; }
 
-        [Required]
         [SexValidator]
-        [DataType(DataType.Text)]
         public string Sex { get; set; }
 
     }
