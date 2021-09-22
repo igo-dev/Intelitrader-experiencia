@@ -33,6 +33,8 @@ namespace Intelitrader_API
         {
             services.AddControllers().AddNewtonsoftJson();
             services.AddDbContext<UsersContext>();
+            services.AddAutoMapper(typeof(AutoMapperSetup));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Intelitrader_API", Version = "v1" });
@@ -45,6 +47,7 @@ namespace Intelitrader_API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
