@@ -61,20 +61,41 @@ namespace Intelitrader_API.Controllers
 
 
         /// <summary>
-        /// Editar usuario por id.
+        /// Atualizar usuario por id.
         /// </summary>
-        /// <response code="200">Usuario editado com sucesso.</response>
+        /// <response code="200">Usuario atualizado com sucesso.</response>
         /// <response code="404">Usuario não encontrado.</response>
+        /// <response code="400">Solicitação não reconhecida pelo servidor.</response>
+        /// <response code="500">Erro interno.</response>
+        /// <param name="id">Id do usuario a editar.</param>
+        /// <param in="body" name="updateUserDto">Dados para atualização.</param>
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, UpdateUserDto updateUserDto)
+        public async Task<IActionResult> PutUpdate(Guid id, UpdateUserDto updateUserDto)
         {
             _logger.LogInformation("Put updating user id {0}", id);
+
+            try
+            {
+                if (!await _userRepository.UserExists(id)) return NotFound();
 
             UserModel userModel = _mapper.Map<UserModel>(updateUserDto);
             userModel.Id = id;
             
+                await _userRepository.PutUpdate(userModel);
+
+                await _userRepository.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "Error while put updating user id {0}", id);
+                return StatusCode(500);
+            }
+        }
+
+
         /// <summary>
         /// Atualizar parcialmente usuario por id.
         /// </summary>
