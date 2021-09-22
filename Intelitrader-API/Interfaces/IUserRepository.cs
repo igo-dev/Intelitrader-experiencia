@@ -1,7 +1,7 @@
 ﻿using Intelitrader_API.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Intelitrader_API.Interfaces
@@ -11,9 +11,9 @@ namespace Intelitrader_API.Interfaces
         Task<IEnumerable<UserModel>> ReadAll();
         Task Create(UserModel userModel);
         Task<UserModel> Read(Guid id);
-        Task Update(UserModel userModel);
+        Task PutUpdate(UserModel userModel);
         Task Delete(Guid id);
-        Task SaveChanges();
+        Task SaveChangesAsync();
         Task<bool> UserExists(Guid id);
     }
 }
