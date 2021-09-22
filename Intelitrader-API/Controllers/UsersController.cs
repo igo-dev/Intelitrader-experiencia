@@ -33,11 +33,32 @@ namespace Intelitrader_API.Controllers
         /// Obter lista de usuarios.
         /// </summary>
         /// <response code="200">Lista obtida com sucesso.</response>
+        /// <response code="204">Lista obtida com sucesso porem vazia.</response>
+        /// <response code="400">Solicitação não reconhecida pelo servidor.</response>
+        /// <response code="500">Ocorreu um erro interno no servidor.</response>
+
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetUserDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<GetUserDto>>> Get()
         {
             _logger.LogInformation("Searching for users!");
+
+            try
+            {
+                IEnumerable<UserModel> users = await _userRepository.ReadAll();
+
+                if (users == null) return NoContent();
+
+                IEnumerable<GetUserDto> mappedDto = _mapper.Map<IEnumerable<GetUserDto>>(users);
+
+                return Ok(mappedDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while searching for users!");
+                return StatusCode(500);
+            }
+
         }
 
 
