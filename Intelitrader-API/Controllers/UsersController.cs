@@ -75,10 +75,50 @@ namespace Intelitrader_API.Controllers
             userModel.Id = id;
             
                 _logger.LogError(ex, "Error while put updating user id {0}", id);
+        /// <summary>
+        /// Atualizar parcialmente usuario por id.
+        /// </summary>
+        /// <response code="200">Usuario atualizado com sucesso.</response>
+        /// <response code="404">Usuario não encontrado.</response>
+        /// <response code="400">Solicitação não reconhecida pelo servidor.</response>
+        /// <response code="500">Erro interno.</response>
+        /// <param name="id">Id do usuario a editar.</param>
+        /// <param name="updateUserDto">Dados para atualização.</param>
 
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchUpdate(Guid id, JsonPatchDocument<UpdateUserDto> updateUserDto)
+        {
+            _logger.LogInformation("Patch updating user id {0}", id);
+
+            try
+            {
+                UserModel entity = await _userRepository.Read(id);
+
+                if (entity == null)
+                    return NotFound();
+
+                JsonPatchDocument<UserModel> mappedUser = _mapper.Map<JsonPatchDocument<UserModel>>(updateUserDto);
+
+                try
+                {
+                    mappedUser.ApplyTo(entity);
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+
+                if (!TryValidateModel(entity)) return BadRequest();
+
+                await _userRepository.SaveChangesAsync();
             return Ok();
         }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "Error while patch updating user id {0}", id);
+                return StatusCode(500);
+            }
+        }
 
 
         /// <summary>
