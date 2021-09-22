@@ -214,22 +214,31 @@ namespace Intelitrader_API.Controllers
         /// Deletar usuario por id.
         /// </summary>
         /// <response code="200">Usuario deletado com sucesso.</response>
+        /// <response code="404">Usuario nao encontrado.</response>
+        /// <response code="400">Solicitação não reconhecida pelo servidor.</response>
+        /// <response code="500">Erro interno.</response>
+        /// <param name="id">Id do usuario a deletar.</param>
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             _logger.LogInformation("Deleting user id {0}", id);
 
-            if (user == null)
+            try
             {
-                return NotFound();
-            }
+                bool userExists = await _userRepository.UserExists(id);
+
+                if (!userExists) return NotFound();
 
             await _userRepository.Delete(id);
-            await _userRepository.SaveChanges();
-
+                await _userRepository.SaveChangesAsync();
             return Ok();
         }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "Error while deleting user id {0}", id);
+                return StatusCode(500);
+            }
+        }
     }
 }
