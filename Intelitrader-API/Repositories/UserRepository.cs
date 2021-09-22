@@ -35,7 +35,12 @@ namespace Intelitrader_API.Repositories
 
         public async Task<IEnumerable<UserModel>> ReadAll()
         {
-            return await _context.Users.ToListAsync();
+            var users = await _context.Users.ToListAsync();
+
+            if (users == null)
+                throw new Exception("An error ocurred while trying to get list of users from the database");
+            
+            return users;
         }
 
         public async Task SaveChanges()
