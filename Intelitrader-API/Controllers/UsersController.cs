@@ -9,6 +9,7 @@ using Intelitrader_API.Models;
 using Intelitrader_API.Interfaces;
 using Intelitrader_API.Dtos;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace Intelitrader_API.Controllers
 {
@@ -18,9 +19,11 @@ namespace Intelitrader_API.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public UsersController(IUserRepository userRepository, IMapper mapper)
+        public UsersController(IUserRepository userRepository, IMapper mapper, ILogger<UsersController> logger)
         {
+            _logger = logger;
             _userRepository = userRepository;
             _mapper = mapper;
         }
@@ -34,8 +37,7 @@ namespace Intelitrader_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetUserDto>>> GetUsers()
         {
-            var result = _mapper.Map<IEnumerable<GetUserDto>>(await _userRepository.ReadAll());
-            return Ok(result);
+            _logger.LogInformation("Searching for users!");
         }
 
 
@@ -48,12 +50,13 @@ namespace Intelitrader_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetUserDto>> GetUser(Guid id)
         {
-            var result = _mapper.Map<GetUserDto>(await _userRepository.Read(id));
+            _logger.LogInformation("Searching for user id {0}", id);
 
             if (result == null)
                 return NotFound();
 
             return Ok(result);
+                _logger.LogError(ex, "Error while searching for user id {0}", id);
         }
 
 
@@ -66,17 +69,16 @@ namespace Intelitrader_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(Guid id, UpdateUserDto updateUserDto)
         {
-            if (!await _userRepository.UserExists(id))
-                return NotFound();
+            _logger.LogInformation("Put updating user id {0}", id);
 
             UserModel userModel = _mapper.Map<UserModel>(updateUserDto);
             userModel.Id = id;
             
-            await _userRepository.Update(userModel);
-            await _userRepository.SaveChanges();
+                _logger.LogError(ex, "Error while put updating user id {0}", id);
 
             return Ok();
         }
+                _logger.LogError(ex, "Error while patch updating user id {0}", id);
 
 
         /// <summary>
@@ -85,11 +87,11 @@ namespace Intelitrader_API.Controllers
         /// <response code="201">Usuario cadastrado com sucesso.</response>
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(CreateUserDto createUserDto)
+            _logger.LogInformation("Creating new user");
         {
             UserModel userModel = _mapper.Map<UserModel>(createUserDto);
             await _userRepository.Create(userModel);
-            await _userRepository.SaveChanges();
+                _logger.LogError(ex, "Error while creating new user");
 
             return Ok();
         }
@@ -103,7 +105,7 @@ namespace Intelitrader_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var user = await _userRepository.Read(id);
+            _logger.LogInformation("Deleting user id {0}", id);
 
             if (user == null)
             {
@@ -115,6 +117,6 @@ namespace Intelitrader_API.Controllers
 
             return Ok();
         }
-
+                _logger.LogError(ex, "Error while deleting user id {0}", id);
     }
 }
