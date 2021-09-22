@@ -46,17 +46,30 @@ namespace Intelitrader_API.Controllers
         /// </summary>
         /// <response code="200">Usuario obtido com sucesso.</response>
         /// <response code="404">Usuario não encontrado.</response>
+        /// <response code="400">Solicitação não reconhecida pelo servidor.</response>
+        /// <response code="500">Erro interno.</response>
+        /// <param name="id">Id do usuario.</param>
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetUserDto>> GetUser(Guid id)
+        public async Task<ActionResult<GetUserDto>> GetById(Guid id)
         {
             _logger.LogInformation("Searching for user id {0}", id);
 
-            if (result == null)
-                return NotFound();
+            try
+            {
+                UserModel user = await _userRepository.Read(id);
 
+                if (user == null) return NotFound();
+
+                GetUserDto result = _mapper.Map<GetUserDto>(user);
             return Ok(result);
+            }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "Error while searching for user id {0}", id);
+                return StatusCode(500);
+            }
+
         }
 
 
