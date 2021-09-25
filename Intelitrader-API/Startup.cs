@@ -53,6 +53,12 @@ namespace Intelitrader_API
                 });
             }
 
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:3000", "https://localhost:3000");
+            }
+            );
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
