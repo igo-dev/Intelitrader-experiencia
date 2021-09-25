@@ -71,5 +71,10 @@ namespace Intelitrader_API.Repositories
 
             return userExists;
         }
+
+        public async Task<IEnumerable<UserModel>> SearchByName(string name)
+        {
+            return await _context.Users.Where(user => user.Name.Contains(name)).ToListAsync();
+        }
     }
 }

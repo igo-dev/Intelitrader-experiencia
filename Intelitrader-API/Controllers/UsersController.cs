@@ -8,6 +8,7 @@ using Intelitrader_API.Dtos;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace Intelitrader_API.Controllers
 {
@@ -235,6 +236,35 @@ namespace Intelitrader_API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while deleting user id {0}", id);
+                return StatusCode(500);
+            }
+        }
+
+
+        /// <summary>
+        /// Buscar usuario por nome.
+        /// </summary>
+        /// <response code="200">Lista de resultados retornada com sucesso.</response>
+        /// <response code="204">Lista de resultados retornada com sucesso porem vazia.</response>
+        /// <response code="400">Solicitação não reconhecida pelo servidor.</response>
+        /// <response code="500">Erro interno.</response>
+        /// <param name="name">Nome do usuario a buscar.</param>
+
+        [HttpGet("searchbyname/{name}")]
+        public async Task<IActionResult> SearchByName(string name)
+        {
+            _logger.LogInformation("Searching for user name {0}", name);
+
+            try
+            {
+                IEnumerable<UserModel> users = await _userRepository.SearchByName(name);
+                IEnumerable<GetUserDto> mappedUsers = _mapper.Map< IEnumerable<GetUserDto>>(users);
+
+                return Ok(mappedUsers);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while searching user name {0}", name);
                 return StatusCode(500);
             }
         }

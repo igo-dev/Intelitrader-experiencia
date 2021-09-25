@@ -15,5 +15,6 @@ namespace Intelitrader_API.Interfaces
         Task Delete(Guid id);
         Task SaveChangesAsync();
         Task<bool> UserExists(Guid id);
+        Task<IEnumerable<UserModel>> SearchByName(string name);
     }
 }
