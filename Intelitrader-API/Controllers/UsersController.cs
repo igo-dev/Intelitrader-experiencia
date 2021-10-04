@@ -38,9 +38,18 @@ namespace Intelitrader_API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetUserDto>>> Get()
+        public async Task<ActionResult<IEnumerable<GetUserDto>>> Get([FromQuery(Name = "name")] string name)
         {
-            _logger.LogInformation("Searching for users!");
+            if (name != null)
+                return await SearchByName(name);
+            else 
+                return await GetAll();
+        }
+
+        private async Task<ActionResult<IEnumerable<GetUserDto>>> GetAll()
+        {
+
+            _logger.LogInformation("Getting all users!");
 
             try
             {
@@ -57,7 +66,6 @@ namespace Intelitrader_API.Controllers
                 _logger.LogError(ex, "Error while searching for users!");
                 return StatusCode(500);
             }
-
         }
 
 
@@ -248,10 +256,8 @@ namespace Intelitrader_API.Controllers
         /// <response code="204">Lista de resultados retornada com sucesso porem vazia.</response>
         /// <response code="400">Solicitação não reconhecida pelo servidor.</response>
         /// <response code="500">Erro interno.</response>
-        /// <param name="name">Nome do usuario a buscar.</param>
 
-        [HttpGet("searchbyname/{name}")]
-        public async Task<IActionResult> SearchByName(string name)
+        private async Task<ActionResult<IEnumerable<GetUserDto>>> SearchByName([FromQuery(Name = "name")] string name)
         {
             _logger.LogInformation("Searching for user name {0}", name);
 
