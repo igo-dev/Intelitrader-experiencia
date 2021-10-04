@@ -1,6 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Header } from './components/header';
-import {IClient} from './interfaces/IClient'
 import { Footer } from './components/footer';
 
 import './index.css'

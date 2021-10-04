@@ -14,7 +14,7 @@ type Props = {
 export const TableSearch:FC<Props> = ( props ) => {
 
     const [searchInput, setSearchInput] = useState<string>('');
-    const [tableHeader, setTableHeader] = useState<string[]>(['Nome', 'Idade', 'Sexo']);
+    const tableHeader:string[] = ['Nome', 'Idade', 'Sexo'];
     const [tableData, setTableData] = useState<IClient[]>([{id: 'Loading', name:'Loading', age:'Loading',sex:'Loading'}]);
 
     useEffect(() => {

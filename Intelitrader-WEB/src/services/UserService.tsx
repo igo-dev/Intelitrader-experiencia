@@ -3,11 +3,12 @@ import { ICreateClientDto } from "../interfaces/ICreateClientDto"
 import { IPatchOp } from "../interfaces/IPatchOp"
 
 const def:IClient[] = [{id: 'Error', name:'Error', age:'Error',sex:'Error'}]
+const baseAddress:string = "https://192.168.0.109:5001/api/";
 
 export class UserService {
 
     static async getUsers(): Promise<IClient[]> {
-        const response = await fetch('https://localhost:5001/api/users')
+        const response = await fetch(baseAddress + 'users')
         .then((r) => r.ok?r.json().then((u:IClient[]) => u):def)
         .catch(() => def)
 
@@ -15,7 +16,7 @@ export class UserService {
     }
 
     static async searchUsers(input:string): Promise<IClient[]> {
-        const response = await fetch(`https://localhost:5001/api/users/searchbyname/${input}`)
+        const response = await fetch(baseAddress + `users?name=${input}`)
         .then((r) => r.ok?r.json().then((u:IClient[]) => u):def)
         .catch(() => def)
 
@@ -23,7 +24,7 @@ export class UserService {
     }
 
     static async createUser(client:ICreateClientDto):Promise<number> {
-        const response = await fetch(`https://localhost:5001/api/users`, {
+        const response = await fetch(baseAddress + `users`, {
             method:'POST', 
             headers: {
                 'Accept': 'application/json',
@@ -39,7 +40,7 @@ export class UserService {
     }
 
     static async deleteUser(input:string): Promise<number> {
-        const response = await fetch(`https://localhost:5001/api/users/${input}`, {
+        const response = await fetch(baseAddress + `users/${input}`, {
             method:'DELETE', 
             headers: {
                 'Accept': 'application/json',
@@ -51,7 +52,7 @@ export class UserService {
     }
 
     static async editUser(id:string, operations:IPatchOp[]):Promise<number> {
-        const response = await fetch(`https://localhost:5001/api/users/${id}`, {
+        const response = await fetch(baseAddress + `users/${id}`, {
             method:'PATCH',
             headers: {
                 'Accept': 'application/json-patch+json',

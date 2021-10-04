@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, FormEvent, FormEventHandler, SetStateAction, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { IPatchOp } from '../interfaces/IPatchOp';
 import { UserService } from '../services/UserService'
 
@@ -18,7 +18,7 @@ export const Modal:FC<Props> = ( props ) => {
 
     const createHandler = () => {
         UserService.createUser({name:name, dateBirth:dateBith, sex:sex})
-        .then((r) => {if(r == 201) {window.location.reload()}});
+        .then((r) => {if(r === 201) {window.location.reload()}});
     }
 
     const editHandler = () => {
@@ -34,7 +34,7 @@ export const Modal:FC<Props> = ( props ) => {
         }
 
         UserService.editUser(props.id, jsonPatch)
-        .then((r) => {if(r == 200) {window.location.reload()}});
+        .then((r) => {if(r === 200) {window.location.reload()}});
     }
 
     return(
@@ -56,7 +56,7 @@ export const Modal:FC<Props> = ( props ) => {
                 </select>
                 
             <button 
-                onClick={props.setBtnTextModal == 'Cadastrar'?createHandler:editHandler} 
+                onClick={props.setBtnTextModal === 'Cadastrar'?createHandler:editHandler} 
                 type="button" 
             >{props.setBtnTextModal}</button>
             </form>

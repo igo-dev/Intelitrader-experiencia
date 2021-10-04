@@ -13,7 +13,7 @@ export const Dropdown:FC<Props> = (props) => {
 
     const deleteHandler = () => {
         UserService.deleteUser(props.id)
-        .then((r) => {if(r == 200) {window.location.reload()}});
+        .then((r) => {if(r === 200) {window.location.reload()}});
     }
 
     const editHandler = () => {

@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import { Button } from "../components/button"
-import { Dropdown } from "../components/dropdown"
 import { Modal } from "../components/modal"
 import { TableSearch } from "../components/tableSearch"
 
