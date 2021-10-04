@@ -1,0 +1,8 @@
+/bin*
+/obj*
+/.vscode*
+/.vs*
+/Properties*
+**/bin
+**/bin
+**/obj

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Intelitrader_Mobile.ViewModels"
+             x:DataType="viewModels:CreateClientViewModel"
+             x:Class="Intelitrader_Mobile.Views.CreateClientPage">
+
+    <ContentPage.Content>
+        <StackLayout Background="#eee">
+            <Frame VerticalOptions="Start"
+                   BackgroundColor="white"
+                   CornerRadius="10"
+                   Margin="20"
+                   Padding="20">
+                <StackLayout>
+                    <Label Text="Nome"
+                           HorizontalOptions="Start" />
+                    <Entry Text="{Binding Name}"
+                           Placeholder="Nome" />
+
+                    <Label Text="Data de Nascimento"
+                           HorizontalOptions="Start" />
+
+                    <DatePicker Format="yyyy/MM/dd"
+                                Date="{Binding BirthDate}" />
+
+                    <Label Text="Sexo"
+                           HorizontalOptions="Start" />
+                    <FlexLayout RadioButtonGroup.GroupName="sex"
+                                RadioButtonGroup.SelectedValue="{Binding Sex}"
+                                JustifyContent="SpaceBetween">
+                        <RadioButton Value="Masc"
+                                     Content="Masculino" />
+                        <RadioButton Value="Fem"
+                                     Content="Feminino" />
+                        <RadioButton Value="Outro"
+                                     Content="Outro" />
+                    </FlexLayout>
+
+
+                </StackLayout>
+            </Frame>
+
+            <Button Text="Cadastrar"
+                    BackgroundColor="#FE7B1D"
+                    Margin="20"
+                    Padding="20"
+                    VerticalOptions="EndAndExpand"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Command="{Binding CreateSingle}" />
+
+
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

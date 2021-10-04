@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Intelitrader_Mobile.ViewModels"
+             x:DataType="viewModels:LandingViewModel"
+             x:Class="Intelitrader_Mobile.Views.LandingPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#FE7B1D">
+            <Frame Margin="10"
+                   CornerRadius="10"
+                   BackgroundColor="White" VerticalOptions="CenterAndExpand">
+                <StackLayout VerticalOptions="CenterAndExpand">
+                    <Image Source="logo.png" />
+                    <Image Source="landing1.png" />
+                    <Label FontSize="20" Text="Bem vindo!" />
+                    <Label FontSize="15" Text="Este aplicativo foi criado utilizando Xamarin.Forms durante meu periodo de experiencia na Intelitrader." />
+                    <Button Command="{Binding Close}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            BackgroundColor="#FE7B1D"
+                            Text="Entrar!" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

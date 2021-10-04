@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Intelitrader_Mobile.Dtos"
+             xmlns:viewModels="clr-namespace:Intelitrader_Mobile.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:converters="clr-namespace:Intelitrader_Mobile.Converters"
+             x:DataType="viewModels:ClientsViewModel"
+             x:Class="Intelitrader_Mobile.Views.ClientsPage">
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior EventName="Appearing"
+                                    Command="{Binding GetAll}" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <Style TargetType="Frame">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="white" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <StackLayout Background="#eeeeee">
+        <AbsoluteLayout HeightRequest="10"
+                        Scale="10"
+                        BackgroundColor="#FE7B1D">
+        </AbsoluteLayout>
+        <StackLayout>
+
+            <Frame HasShadow="True"
+                   Margin="20,0,20,10"
+                   BackgroundColor="white"
+                   Padding="0,10,10,10"
+                   CornerRadius="10">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+
+                    <SearchBar SearchCommandParameter="{Binding SearchInput}"
+                               BackgroundColor="Transparent"
+                               SearchCommand="{Binding Search}"
+                               Text="{Binding SearchInput}"
+                               Placeholder="Digite um nome!"
+                               Grid.Column="0" />
+
+                </Grid>
+
+            </Frame>
+            <Frame HasShadow="True"
+                   Margin="20,0,20,20"
+                   Padding="0"
+                   CornerRadius="10"
+                   BackgroundColor="Transparent">
+                <StackLayout BackgroundColor="Transparent">
+
+                    <FlexLayout JustifyContent="SpaceBetween"
+                                AlignItems="Center">
+                        <Label Text="Clientes"
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               Padding="0,0,0,0" />
+                        <Button FontSize="20"
+                                FontFamily="{StaticResource PostFontIcon}"
+                                Text=""
+                                Command="{Binding OpenCreateClient}"
+                                BackgroundColor="#FE7B1D"
+                                CornerRadius="10"
+                                TextColor="White">
+
+                        </Button>
+                    </FlexLayout>
+
+                    <RefreshView IsRefreshing="{Binding IsBusy}"
+                                 Command="{Binding GetAll}"
+                                 RefreshColor="#FE7B1D">
+
+                        <CollectionView ItemsUpdatingScrollMode="KeepItemsInView"
+                                        SelectedItem="{Binding SelectedItem}"
+                                        SelectionMode="Single"
+                                        ItemsSource="{Binding Clients, Mode=TwoWay}">
+                            <CollectionView.Behaviors>
+                                <xct:EventToCommandBehavior EventName="SelectionChanged"
+                                                            Command="{Binding OpenDetail}" />
+                            </CollectionView.Behaviors>
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical"
+                                                   ItemSpacing="10" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame HasShadow="False"
+                                           CornerRadius="10">
+                                        <Grid x:DataType="model:ClientModel">
+                                            <Grid.Resources>
+                                                <converters:DateBirthToAgeConverter x:Key="DateBirthToAgeConverter" />
+                                            </Grid.Resources>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                                <RowDefinition Height="auto"></RowDefinition>
+                                            </Grid.RowDefinitions>
+
+                                            <Label Grid.Column="0"
+                                                   Text=""
+                                                   FontFamily="{StaticResource PostFontIcon}"
+                                                   FontSize="25"
+                                                   Grid.RowSpan="2"
+                                                   VerticalOptions="Center"
+                                                   Padding="0,0,10,0" />
+                                            <Label Grid.Column="1"
+                                                   Grid.ColumnSpan="3"
+                                                   Text="{Binding Name}"
+                                                   Grid.Row="0"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center" />
+                                            <Label Grid.Column="1"
+                                                   Text="Idade:"
+                                                   Grid.Row="1" />
+                                            <Label Grid.Column="2"
+                                                   Grid.Row="1"
+                                                   Text="{Binding BirthDate, Converter={StaticResource DateBirthToAgeConverter}}" />
+                                            <Label Grid.Column="3"
+                                                   Text="Sexo:"
+                                                   Grid.Row="1" />
+                                            <Label Grid.Column="4"
+                                                   Text="{Binding Sex}"
+                                                   Grid.Row="1" />
+                                            <Label Grid.Column="5"
+                                                   Grid.RowSpan="2"
+                                                   Text=""
+                                                   HorizontalOptions="End"
+                                                   VerticalOptions="Center"
+                                                   FontFamily="{StaticResource PostFontIcon}" />
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </RefreshView>
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

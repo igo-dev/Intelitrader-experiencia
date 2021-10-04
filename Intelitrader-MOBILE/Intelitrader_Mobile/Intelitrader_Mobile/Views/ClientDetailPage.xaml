@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Intelitrader_Mobile.ViewModels"
+             xmlns:model="clr-namespace:Intelitrader_Mobile.Dtos"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="viewModels:ClientDetailViewModel"
+             x:Class="Intelitrader_Mobile.Views.ClientDetailPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+
+            <x:Array Type="{x:Type x:String}"
+                     x:Key="sexList">
+                <x:String>Masc</x:String>
+                <x:String>Fem</x:String>
+                <x:String>Outro</x:String>
+        </x:Array>
+
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid Margin="10" Padding="10">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Label Text="Id"
+                   Grid.ColumnSpan="2"
+                   Grid.Column="0"
+                   Grid.Row="0" />
+            <Label FontAttributes="Bold"
+                   FontSize="15"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="1"
+                   Text="{Binding Client.Id}" />
+            <Label Text="Nome"
+                   Grid.ColumnSpan="2"
+                   Grid.Column="0"
+                   Grid.Row="2" />
+            <Entry 
+                   FontAttributes="Bold"
+                   IsEnabled="{Binding IsEditing}"
+                   FontSize="20"
+                   Grid.ColumnSpan="2"
+                   Grid.Column="0"
+                   Grid.Row="3"
+                   Text="{Binding Client.Name}" />
+
+            <Label Text="Data de Nascimento"
+                   Grid.Column="0"
+                   Grid.Row="4" />
+            <DatePicker IsEnabled="{Binding IsEditing}"
+                        Format="yyyy/MM/dd"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Grid.Column="0"
+                        Grid.Row="5"
+                        Date="{Binding Client.BirthDate}" />
+
+            <Label Text="Sexo"
+                   Grid.Column="1"
+                   Grid.Row="4" />
+
+            <Picker Grid.Column="1"
+                    Grid.Row="5"
+                    IsEnabled="{Binding IsEditing}"
+                    SelectedItem="{Binding Client.Sex, Mode=TwoWay}"
+                    ItemsSource="{x:StaticResource sexList}" />
+
+            <Button VerticalOptions="End"
+                    Command="{Binding DeleteSingle}"
+                    BackgroundColor="#f22"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Text="Deletar"
+                    Grid.Row="8"
+                    Grid.Column="0" />
+            <Button VerticalOptions="End"
+                    IsVisible="{Binding IsEditing}"
+                    Command="{Binding Update}"
+                    BackgroundColor="#2b3"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Text="Atualizar"
+                    Grid.Row="8"
+                    Grid.Column="1" />
+            <Button VerticalOptions="End"
+                    IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"
+                    Command="{Binding SetEditMode}"
+                    BackgroundColor="#FE7B1D"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Text="Editar"
+                    Grid.Row="8"
+                    Grid.Column="1" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
