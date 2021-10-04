@@ -7,9 +7,9 @@ namespace Intelitrader_API.Attributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string dateString = value.ToString();
 
-            if (dateString.Length == 0) return new ValidationResult ("O campo data de nascimento não pode estar vazio.");
+            string dateString = (string)value;
+            if (string.IsNullOrWhiteSpace(dateString)) return new ValidationResult ("O campo data de nascimento não pode estar vazio.");
 
             try
             {

@@ -7,16 +7,16 @@ namespace Intelitrader_API.Attributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string sexString = value.ToString().ToLower();
 
-            if (sexString.Length == 0) return new ValidationResult("O campo sexo não pode estar vazio.");
+            string sexString = (string)value;
+            if (string.IsNullOrWhiteSpace(sexString)) return new ValidationResult("O campo sexo não pode estar vazio.");
 
-            if (sexString == "masc" || sexString == "fem" || sexString == "outro")
+            if (sexString == "Masc" || sexString == "Fem" || sexString == "Outro")
             {
                 return ValidationResult.Success;
             }
 
-            return new ValidationResult("Sexo inválido. Opções válidas são 'Masc', 'Fem' e 'Outro'");
+            return new ValidationResult("Sexo inválido. Opções válidas são 'masc', 'fem' e 'outro'");
 
         }
 

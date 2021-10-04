@@ -7,9 +7,8 @@ namespace Intelitrader_API.Attributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string valueSpan = value.ToString();
-
-            if (valueSpan.Length == 0) return new ValidationResult("O campo nome não pode estar vazio.");
+            string nameString = (string)value;
+            if (string.IsNullOrWhiteSpace(nameString)) return new ValidationResult("O campo nome não pode estar vazio.");
 
             return ValidationResult.Success;
         }
