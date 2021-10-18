@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.20)
+set(CMAKE_CXX_STANDARD 11)
+
+project(Inteli-Initiator)
+
+add_executable(${PROJECT_NAME} src/Initiator.h src/Initiator.cpp src/Application.h src/Application.cpp)
+
+include_directories(${CMAKE_SOURCE_DIR}/libs/quickfix/include)
+
+target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/libs/quickfix/lib/quickfix.lib wsock32 ws2_32)
